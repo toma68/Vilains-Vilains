@@ -120,7 +120,6 @@
 </template>
 
 <script>
-import {updatehero} from "@/services/hero.service";
 
 export default {
   name: "TeamDetailsComponent",
