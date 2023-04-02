@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {getOrgs, createOrg, getOrg, removeTeam, addTeam} from '@/services/org.service';
 import {getteams, createteam, removeheroes} from '@/services/team.service';
-import { getherobyid, updatehero} from '@/services/hero.service';
+import {createhero, getherobyid, updatehero} from '@/services/hero.service';
 
 
 Vue.use(Vuex)
@@ -66,6 +66,9 @@ export default new Vuex.Store({
                 }
                 return h;
             });
+        },
+        addNewHero(state, hero){
+            state.heroesOfTeam.push(hero);
         }
 
     },
@@ -163,6 +166,14 @@ export default new Vuex.Store({
                 const heroData = await updatehero(hero);
                 commit('updateHero', heroData.data.data)
             } catch (error) {
+                console.error(error);
+            }
+        },
+        async createHero({commit}, hero){
+            try{
+                const newHero = await createhero({publicName:hero.publicName, realName:hero.realName, powers:[{}]});
+                commit("addNewHero", newHero);
+            }catch(error){
                 console.error(error);
             }
         }

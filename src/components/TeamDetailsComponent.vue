@@ -38,7 +38,7 @@
         </v-data-table>
       </v-card-text>
 
-        <v-btn color="primary" dark class="mb-2" @click="dialog = true ; updatedHero = null">
+        <v-btn color="primary" dark class="mb-2" style="margin : 15px;" @click="addHero()">
           Ajouter un Membre
         </v-btn>
 
@@ -51,8 +51,8 @@
             <v-card-title>{{ dialogTitle }}</v-card-title>
 
             <v-card-text>
-              <v-form @submit.prevent="create">
-                <v-text-field v-model="updatedHero.realName" label="Nom réél" required></v-text-field>
+              <v-form @submit.prevent="createNew">
+                <v-text-field v-model="updatedHero.realName" label="Nom réel" required></v-text-field>
                 <v-text-field v-model="updatedHero.publicName" label="Nom public" required></v-text-field>
 
                 <v-simple-table>
@@ -120,6 +120,8 @@
 </template>
 
 <script>
+import {updatehero} from "@/services/hero.service";
+
 export default {
   name: "TeamDetailsComponent",
   data() {
@@ -165,6 +167,12 @@ export default {
     },
     removePower(pouvoir) {
       this.updatedHero.powers = this.updatedHero.powers.filter(p => p._id !== pouvoir._id);
+    },
+    async addHero(){
+      this.updatedHero = {publicName: this.updatedHero.publicName, realName: this.updatedHero.realName};
+      this.dialog = true;
+      this.dialogTitle = "Ajouter un membre";
+      console.log(this.updatedHero);
     },
     createNew() {
       if (this.updatedHero._id) {
